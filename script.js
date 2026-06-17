@@ -406,12 +406,52 @@ const initProjectGallery = () => {
 
 const initMahagunPageLightbox = () => {
   const gallery = document.querySelector("[data-mahagun-page-gallery]");
-  const items = gallery?.querySelectorAll("[data-mahagun-page-preview-src]");
+  const galleryImagesSource = document.querySelector("[data-mahagun-gallery-images]");
   const lightbox = document.querySelector("[data-mahagun-page-lightbox]");
   const lightboxImage = lightbox?.querySelector("[data-mahagun-page-lightbox-image]");
   const closeButton = lightbox?.querySelector("[data-close-mahagun-page-lightbox]");
 
-  if (!gallery || !items?.length || !lightbox || !lightboxImage || !closeButton) {
+  if (!gallery || !lightbox || !lightboxImage || !closeButton) {
+    return;
+  }
+
+  if (galleryImagesSource) {
+    try {
+      const images = JSON.parse(galleryImagesSource.textContent || "[]");
+      const fragment = document.createDocumentFragment();
+
+      images.forEach((image, index) => {
+        if (!image.src) return;
+
+        const item = document.createElement("button");
+        const img = document.createElement("img");
+        const alt =
+          image.alt ||
+          `Mahagun Mascot Crossing Republic interior detail ${index + 1}`;
+
+        item.className = "mahagun-gallery-item";
+        item.type = "button";
+        item.dataset.mahagunPagePreviewSrc = image.src;
+        item.dataset.mahagunPagePreviewAlt = alt;
+
+        img.src = image.src;
+        img.alt = alt;
+        img.loading = "lazy";
+        img.decoding = "async";
+
+        item.appendChild(img);
+        fragment.appendChild(item);
+      });
+
+      gallery.replaceChildren(fragment);
+    } catch (error) {
+      console.error("Unable to load Mahagun gallery images", error);
+    }
+  }
+
+  const items = gallery.querySelectorAll("[data-mahagun-page-preview-src]");
+
+  if (!items.length) {
     return;
   }
 
