@@ -504,6 +504,15 @@ const initContactForms = () => {
     const defaultLabel = submitButton?.textContent;
 
     form.addEventListener("submit", (event) => {
+      if (form.hasAttribute("action")) {
+        if (submitButton) {
+          submitButton.disabled = true;
+          submitButton.textContent = "Sending...";
+        }
+
+        return;
+      }
+
       event.preventDefault();
 
       form.reset();

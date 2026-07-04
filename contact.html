@@ -75,7 +75,14 @@
             <div class="form-card reveal reveal-left">
               <span class="section-tag">Project Enquiry</span>
               <h2>Book Your Design Consultation</h2>
-              <form class="contact-form" data-contact-form>
+              <form
+                class="contact-form"
+                action="https://formsubmit.co/contact@royalhomedecor.co"
+                method="POST"
+                data-contact-form
+              >
+                <input type="hidden" name="_subject" value="New Royal Home Decor enquiry" />
+                <input type="hidden" name="_template" value="table" />
                 <label class="form-field">
                   <span>Name</span>
                   <input type="text" name="name" placeholder="Your full name" required />
